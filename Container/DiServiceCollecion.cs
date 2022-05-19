@@ -16,12 +16,12 @@ namespace IOC_Container.Container
             _serviceDescriptors.Add(new ServiceDescriptor(typeof(T), ServiceLifetime.Singleton));
         }
 
-        internal void RegisterSingleton<TService, TImplementaion>()
+        internal void RegisterSingleton<TService, TImplementaion>() where TImplementaion : TService
         {
             _serviceDescriptors.Add(new ServiceDescriptor(typeof(TService), typeof(TImplementaion), ServiceLifetime.Singleton));
         }
 
-        internal void RegisterTransient<TService, TImplementaion>()
+        internal void RegisterTransient<TService, TImplementaion>() where TImplementaion : TService
         {
             _serviceDescriptors.Add(new ServiceDescriptor(typeof(TService), typeof(TImplementaion), ServiceLifetime.Transient));
         }

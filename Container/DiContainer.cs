@@ -11,35 +11,47 @@ namespace IOC_Container.Container
             _serviceDescriptors = serviceDescriptors;
         }
 
-        public T GetService<T>()
+        public object GetService(Type serviceType)
         {
-            var descriptor = _serviceDescriptors.SingleOrDefault(x => x.ServiceType == typeof(T));
+            var descriptor = _serviceDescriptors.SingleOrDefault(x => x.ServiceType == serviceType);
 
 
             if (descriptor == null)
             {
-                throw new Exception($"Service of type {typeof(T).Name} is not registered");
+                throw new Exception($"Service of type {serviceType.Name} is not registered");
             }
             if (descriptor.Implementation is not null)
             {
-                return (T)descriptor.Implementation;
+                return descriptor.Implementation;
             }
 
-            if (descriptor.ImplementationType is not null)
+            var actualType = descriptor.ImplementationType ?? descriptor.ServiceType;
+
+            if (actualType.IsAbstract || actualType.IsInterface)
             {
-
+                throw new Exception("Cannot instantiate abstract classes or interfaces");
             }
 
-            var implementation = (T)Activator.
-                CreateInstance(descriptor.ImplementationType ?? descriptor.ServiceType);
+            var constructorInfo = actualType.GetConstructors().First();
+
+            var parameters = constructorInfo.GetParameters()
+                .Select(x => GetService(x.ParameterType)).ToArray();
+
+            var implementation = Activator.CreateInstance(actualType, parameters);
+
+
+            //var implementation = constructorInfo.Invoke(parameters);
 
             if (descriptor.Lifetime == ServiceLifetime.Singleton)
             {
                 descriptor.Implementation = implementation;
             }
             return implementation;
+        }
 
-            return default;
+        public T GetService<T>()
+        {
+            return (T)GetService(typeof(T));
         }
     }
 }
