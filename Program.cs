@@ -6,8 +6,10 @@ Console.WriteLine("Hello, World!");
 
 var services = new DiServiceCollecion();
 
-//services.RegisterSingleton<RandomGuiGenerator>();
-services.RegisterSingleton(new RandomGuiGenerator());
+
+//services.RegisterSingleton(new RandomGuiGenerator());
+
+services.RegisterSingleton<RandomGuiGenerator>();
 
 var container = services.GenerateContainer();
 
