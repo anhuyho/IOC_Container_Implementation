@@ -16,7 +16,10 @@ var services = new DiServiceCollecion();
 
 //services.RegisterTransient<IMyService, MyService>();
 
-services.RegisterSingleton<IMyService, MyService>();
+services.RegisterTransient<IMyService, MyService>();
+services.RegisterTransient<IRandomGuidProvider, RandomGuidProvider>();
+
+
 
 var container = services.GenerateContainer();
 
