@@ -6,6 +6,8 @@ namespace IOC_Container.Container
     {
         public Type ServiceType { get; set; }
 
+        public Type ImplementationType { get; set; }
+
         public object Implementation { get; internal set; }
 
         public ServiceLifetime Lifetime { get; }
@@ -25,6 +27,13 @@ namespace IOC_Container.Container
         {
             ServiceType = serviceType;
             Lifetime = lifetime;
+        }
+
+        public ServiceDescriptor(Type serviceType, Type implementationType, ServiceLifetime lifetime)
+        {
+            ServiceType = serviceType;
+            Lifetime =  lifetime;
+            ImplementationType = implementationType;
         }
     }
 }

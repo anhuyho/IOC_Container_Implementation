@@ -25,15 +25,19 @@ namespace IOC_Container.Container
                 return (T)descriptor.Implementation;
             }
 
-            if (typeof(T) == descriptor.ServiceType)
+            if (descriptor.ImplementationType is not null)
             {
-                var implementation = (T)Activator.CreateInstance(descriptor.ServiceType);
-                if (descriptor.Lifetime == ServiceLifetime.Singleton)
-                {
-                    descriptor.Implementation = implementation;
-                }
-                return implementation;
+
             }
+
+            var implementation = (T)Activator.
+                CreateInstance(descriptor.ImplementationType ?? descriptor.ServiceType);
+
+            if (descriptor.Lifetime == ServiceLifetime.Singleton)
+            {
+                descriptor.Implementation = implementation;
+            }
+            return implementation;
 
             return default;
         }
