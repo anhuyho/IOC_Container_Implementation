@@ -1,8 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using IOC_Container.Container;
-using IOC_Container.Types;
+using IOC_Container.Types.Implementations;
+using IOC_Container.Types.Interfaces;
 
-Console.WriteLine("Hello, World!");
+Console.WriteLine("\n\nDependency Injection, Building DI Container ...\n\n");
 
 var services = new DiServiceCollecion();
 
@@ -11,16 +12,20 @@ var services = new DiServiceCollecion();
 //services.RegisterSingleton<RandomGuiGenerator>();
 
 //services.RegisterTransient<RandomGuiGenerator>();
-services.RegisterTransient(new RandomGuiGenerator());
+//services.RegisterTransient(new RandomGuiGenerator());
+
+//services.RegisterTransient<IMyService, MyService>();
+
+services.RegisterSingleton<IMyService, MyService>();
 
 var container = services.GenerateContainer();
 
-var serviceFirst = container.GetService<RandomGuiGenerator>();
+var serviceFirst = container.GetService<IMyService>();
 
-var serviceSecond = container.GetService<RandomGuiGenerator>();
+var serviceSecond = container.GetService<IMyService>();
 
-Console.WriteLine(serviceFirst.RandomGuid);
-Console.WriteLine(serviceSecond.RandomGuid);
+serviceFirst.DoSomeThing();
+serviceSecond.DoSomeThing();
 
 
 
