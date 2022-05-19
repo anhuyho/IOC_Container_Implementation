@@ -8,8 +8,10 @@ var services = new DiServiceCollecion();
 
 
 //services.RegisterSingleton(new RandomGuiGenerator());
+//services.RegisterSingleton<RandomGuiGenerator>();
 
-services.RegisterSingleton<RandomGuiGenerator>();
+//services.RegisterTransient<RandomGuiGenerator>();
+services.RegisterTransient(new RandomGuiGenerator());
 
 var container = services.GenerateContainer();
 

@@ -13,7 +13,11 @@ namespace IOC_Container.Container
         public ServiceDescriptor(object implementation, ServiceLifetime lifetime)
         {
             ServiceType = implementation.GetType();
-            Implementation = implementation;
+            if (lifetime == ServiceLifetime.Singleton)
+            {
+                Implementation = implementation;
+            }
+            
             Lifetime = lifetime;
         }
 
