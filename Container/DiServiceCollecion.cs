@@ -10,6 +10,12 @@ namespace IOC_Container.Container
         {
             _serviceDescriptors.Add(new ServiceDescriptor(implementation, ServiceLifetime.Singleton));
         }
+
+        internal void RegisterSingleton<T>()
+        {
+            _serviceDescriptors.Add(new ServiceDescriptor(typeof(T), ServiceLifetime.Singleton));
+        }
+
         internal DiContainer GenerateContainer()
         {
             return new DiContainer(_serviceDescriptors);

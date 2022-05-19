@@ -24,6 +24,15 @@ namespace IOC_Container.Container
             {
                 return (T)descriptor.Implementation;
             }
+
+            if (typeof(T) == descriptor.ServiceType)
+            {
+                var implementation = (T)Activator.CreateInstance(descriptor.ServiceType);
+                descriptor.Implementation = implementation;
+
+                return implementation;
+            }
+
             return default;
         }
     }
