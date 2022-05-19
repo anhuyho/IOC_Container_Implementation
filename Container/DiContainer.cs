@@ -28,8 +28,10 @@ namespace IOC_Container.Container
             if (typeof(T) == descriptor.ServiceType)
             {
                 var implementation = (T)Activator.CreateInstance(descriptor.ServiceType);
-                descriptor.Implementation = implementation;
-
+                if (descriptor.Lifetime == ServiceLifetime.Singleton)
+                {
+                    descriptor.Implementation = implementation;
+                }
                 return implementation;
             }
 
